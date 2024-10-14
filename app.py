@@ -109,7 +109,7 @@ with tab2:
         else:
             st.error("Invalid username or password. ❌")
 
-# If logged in, show the truck registration form
+# If logged in, show the truck registration form and past history
 if st.session_state.logged_in:
     st.subheader("🚛 Register a New Truck")
     st.write(f"Welcome, {st.session_state.current_user}! Register your truck below.")
@@ -134,18 +134,15 @@ if st.session_state.logged_in:
                 "Username": st.session_state.current_user,
             }
             # Convert truck_data to DataFrame and save to CSV
-            if truck_data:
-                truck_data_df = pd.DataFrame.from_dict(truck_data, orient='index').reset_index().rename(columns={"index": "Truck Number"})
-                truck_data_df.to_csv(data_file, index=False)
-                st.success(f"Truck {truck_number} registered successfully! ✅")
-            else:
-                st.error("Error saving truck data.")
+            truck_data_df = pd.DataFrame.from_dict(truck_data, orient='index').reset_index().rename(columns={"index": "Truck Number"})
+            truck_data_df.to_csv(data_file, index=False)
+            st.success(f"Truck {truck_number} registered successfully! ✅")
         else:
             st.error("Please fill out all the fields. 📝")
-    
+
     # Display the registered trucks for the logged-in user
     st.subheader(f"🚛 Registered Trucks for {st.session_state.current_user}")
-    user_trucks = {truck: details for truck, details in truck_data.items() if "Username" in details and details["Username"] == st.session_state.current_user}
+    user_trucks = {truck: details for truck, details in truck_data.items() if details["Username"] == st.session_state.current_user}
     
     if user_trucks:
         for truck, details in user_trucks.items():
