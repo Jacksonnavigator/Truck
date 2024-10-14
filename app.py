@@ -22,7 +22,7 @@ def create_user_file():
 
 # Function to create an empty truck_data.csv file with the correct headers
 def create_data_file():
-    pd.DataFrame(columns=["Truck Number", "Driver's Name", "Contact Number", "Registration Date", "Weight", "Area Measured", "Username"]).to_csv(data_file, index=False)
+    pd.DataFrame(columns=["Truck Number", "Driver's Name", "Contact Number", "Registration Date", "Weight", "Measurement Area", "Username"]).to_csv(data_file, index=False)
 
 # Check if the user file exists
 if not os.path.exists(user_file):
@@ -119,18 +119,18 @@ if st.session_state.logged_in:
     driver_name = st.text_input("👨‍✈️ Driver's Name")
     contact_number = st.text_input("📞 Contact Number")
     registration_date = st.date_input("📅 Registration Date")
-    truck_weight = st.number_input("⚖️ Truck Weight (in tons)", min_value=0.0, step=0.1)
-    area_measured = st.text_input("📍 Area of Measurement")
+    weight = st.number_input("⚖️ Truck Weight (kg)", min_value=0.0)
+    measurement_area = st.text_input("📍 Measurement Area")
 
     # Button to submit the form
     if st.button("Register Truck"):
-        if truck_number and driver_name and contact_number and truck_weight > 0 and area_measured:
+        if truck_number and driver_name and contact_number and weight and measurement_area:
             truck_data[truck_number] = {
                 "Driver's Name": driver_name,
                 "Contact Number": contact_number,
                 "Registration Date": registration_date,
-                "Weight": truck_weight,
-                "Area Measured": area_measured,
+                "Weight": weight,
+                "Measurement Area": measurement_area,
                 "Username": st.session_state.current_user,
             }
             # Convert truck_data to DataFrame and save to CSV
@@ -153,8 +153,8 @@ if st.session_state.logged_in:
             st.write(f"**👨‍✈️ Driver's Name:** {details['Driver\'s Name']}")
             st.write(f"**📞 Contact Number:** {details['Contact Number']}")
             st.write(f"**📅 Registration Date:** {details['Registration Date']}")
-            st.write(f"**⚖️ Truck Weight:** {details['Weight']} tons")
-            st.write(f"**📍 Area Measured:** {details['Area Measured']}")
+            st.write(f"**⚖️ Weight:** {details['Weight']} kg")
+            st.write(f"**📍 Measurement Area:** {details['Measurement Area']}")
             st.write("---")
     else:
         st.write("No trucks registered yet. 📝")
@@ -165,3 +165,8 @@ if st.session_state.logged_in:
         st.session_state.logged_in = False
         st.session_state.current_user = None
         st.success("Logged out successfully! 👋")
+
+# Debugging section (optional, for troubleshooting)
+st.write("Debug Info: ", st.session_state)
+st.write("Loaded User Data: ", user_data)
+st.write("Loaded Truck Data: ", truck_data)
