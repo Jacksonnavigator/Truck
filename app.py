@@ -21,7 +21,7 @@ def create_user_file():
 
 # Function to create an empty truck_data.csv file with headers
 def create_data_file():
-    pd.DataFrame(columns=["Truck Number", "Driver's Name", "Contact Number", "Registration Date", "Weight", "Area", "Username"]).to_csv(data_file, index=False)
+    pd.DataFrame(columns=["Truck Number", "Driver's Name", "Driver's Id", "Contact Number", "Registration Date", "Weight", "Area", "Username"]).to_csv(data_file, index=False)
 
 # Check if the user file exists
 if not os.path.exists(user_file):
@@ -96,17 +96,17 @@ if st.session_state.logged_in:
     st.subheader("🚛 Register a New Truck")
     truck_number = st.text_input("🚚 Truck Number")
     driver_name = st.text_input("👨‍✈️ Driver's Name")
-    driver id = st.text_input("👨‍✈️ Driver's Id")
+    driver_id = st.text_input("👨‍✈️ Driver's ID")
     contact_number = st.text_input("📞 Contact Number")
     registration_date = st.date_input("📅 Registration Date")
     weight = st.number_input("Weight (tons)", min_value=0.0)
     area = st.text_input("Area where truck was weighed")
 
     if st.button("Register Truck"):
-        if truck_number and driver_name and driver id and contact_number:
+        if truck_number and driver_name and driver_id and contact_number:
             truck_data[truck_number] = {
                 "Driver's Name": driver_name,
-                "Driver's Id": driver_i,
+                "Driver's Id": driver_id,
                 "Contact Number": contact_number,
                 "Registration Date": registration_date,
                 "Weight": weight,
@@ -127,7 +127,7 @@ if st.session_state.logged_in:
         for truck, details in user_trucks.items():
             st.write(f"**🚚 Truck Number:** {truck}")
             st.write(f"**👨‍✈️ Driver's Name:** {details['Driver\'s Name']}")
-             st.write(f"**👨‍✈️ Driver's Id:** {details['Driver\'s Id']}")
+            st.write(f"**👨‍✈️ Driver's Id:** {details['Driver\'s Id']}")
             st.write(f"**📞 Contact Number:** {details['Contact Number']}")
             st.write(f"**📅 Registration Date:** {details['Registration Date']}")
             st.write(f"**Weight:** {details['Weight']} tons")
